@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroSense Footer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Footer Main Styles */
+        .footer {
+            background-color: #ffffff;
+            padding: 80px 10% 40px 10%;
+            border-top: 1px solid #eaeaea;
+            color: #555;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        /* Left Side Brand Info */
+        .footer-brand {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .footer-brand p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            color: #3b5998; /* Facebook Blue */
+            text-decoration: none;
+        }
+
+        /* Columns Layout */
+        .footer-links {
+            display: flex;
+            flex: 2;
+            justify-content: space-between;
+            min-width: 300px;
+        }
+
+        .footer-column h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 25px;
+            text-transform: capitalize;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-column ul li a {
+            text-decoration: none;
+            color: #777;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: #000;
+        }
+
+        /* Bottom Copyright Bar */
+        .footer-bottom {
+            margin-top: 60px;
+            padding-top: 20px;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .footer-links {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .footer {
+                padding: 40px 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="height: 50vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5;">
+        <h1 style="color: #ccc;">Page Content</h1>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <p>...intelligence accessible to everyone.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="AIr.html">Dashboard</a></li>
+                        <li><a href="map.html">Real-time Map</a></li>
+                        <li><a href="#">Historical Data</a></li>
+                        <li><a href="api.html">API Access</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="doc.html">Documentation</a></li>
+                        <li><a href="health.html">Health Guidelines</a></li>
+                        <li><a href="res.html">Research</a></li>
+                        <li><a href="com.html">Community</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 AeroSense. All rights reserved. Data sources: Open-Meteo, OpenAQ, US EPA, ESA.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

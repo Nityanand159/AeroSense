@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroSense | Air Quality Intelligence</title>
+    <style>
+        :root {
+            --primary-blue: #0047ab;
+            --text-dark: #333;
+            --bg-light: #f8f9fa;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+        }
+
+        /* Hero/Placeholder Section */
+        .hero {
+            height: 400px;
+            background: linear-gradient(to bottom, #0047ab, #007bff);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Health Guidelines Section */
+        #health-guidelines {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .guideline-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .guideline-table th, .guideline-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guideline-table th {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        /* AQI Level Colors */
+        .good { background-color: #d4edda; color: #155724; }
+        .moderate { background-color: #fff3cd; color: #856404; }
+        .unhealthy-sensitive { background-color: #ffeeba; color: #856404; }
+        .unhealthy { background-color: #f8d7da; color: #721c24; }
+
+        /* Footer Styles (Matching your Image) */
+        footer {
+            background-color: #fff;
+            padding: 60px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #000;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary-blue);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>Welcome to AeroSense Dashboard</h1>
+    </div>
+
+    <section id="health-guidelines">
+        <h2>Air Quality Health Guidelines</h2>
+        <p>Protect yourself and your family by following these EPA-standard recommendations based on real-time AQI levels.</p>
+        
+        <table class="guideline-table">
+            <thead>
+                <tr>
+                    <th>AQI Range</th>
+                    <th>Category</th>
+                    <th>Health Recommendations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="good">
+                    <td>0 - 50</td>
+                    <td><strong>Good</strong></td>
+                    <td>Air quality is satisfactory. Enjoy outdoor activities!</td>
+                </tr>
+                <tr class="moderate">
+                    <td>51 - 100</td>
+                    <td><strong>Moderate</strong></td>
+                    <td>Sensitive individuals should consider reducing heavy outdoor exertion.</td>
+                </tr>
+                <tr class="unhealthy-sensitive">
+                    <td>101 - 150</td>
+                    <td><strong>Unhealthy (Sensitive)</strong></td>
+                    <td>People with heart/lung disease, children, and older adults should limit outdoor time.</td>
+                </tr>
+                <tr class="unhealthy">
+                    <td>151 - 200</td>
+                    <td><strong>Unhealthy</strong></td>
+                    <td>Everyone should limit prolonged outdoor exertion. Wear an N95 mask if necessary.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h2 style="color: var(--primary-blue); margin-top: 0;">AeroSense</h2>
+                <p>Making air quality intelligence accessible to everyone.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="AIr.html">Dashboard</a></li>
+                    <li><a href="map.html">Real-time Map</a></li>
+                    <li><a href="#">Historical Data</a></li>
+                    <li><a href="api.html">API Access</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="doc.html">Documentation</a></li>
+                    <li><a href="health.html">Health Guidelines</a></li>
+                    <li><a href="res.html">Research</a></li>
+                    <li><a href="com.html">Community</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 AeroSense. All rights reserved. Data sources: Open-Meteo, OpenAQ, US EPA, ESA.
+        </div>
+    </footer>
+
+</body>
+</html>

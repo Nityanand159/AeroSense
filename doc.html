@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation | AeroSense</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary-blue: #002d72; /* Matches your header */
+            --light-blue: #4a90e2;
+            --text-dark: #333333;
+            --text-muted: #718096;
+            --bg-light: #f9fafb;
+            --border-color: #edf2f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: white;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            background-color: var(--primary-blue);
+            padding: 1rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: white;
+        }
+
+        .btn-signin {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-signin:hover {
+            background-color: white;
+            color: var(--primary-blue);
+        }
+
+        /* Documentation Layout */
+        .doc-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            max-width: 1300px;
+            margin: 0 auto;
+            min-height: 80vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            padding: 40px 20px;
+            border-right: 1px solid var(--border-color);
+            height: calc(100vh - 70px);
+            position: sticky;
+            top: 70px;
+            overflow-y: auto;
+        }
+
+        .sidebar-group { margin-bottom: 30px; }
+        .sidebar-group h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .sidebar-group ul { list-style: none; }
+        .sidebar-group li { margin-bottom: 8px; }
+        
+        .sidebar-group a {
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.95rem;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .sidebar-group a:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-blue);
+        }
+
+        .sidebar-group a.active {
+            background-color: #ebf4ff;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            padding: 40px 60px;
+            max-width: 900px;
+        }
+
+        .main-content h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-blue); }
+        .main-content h2 { font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; }
+        .main-content p { margin-bottom: 1.2rem; color: #4a5568; font-size: 1.05rem; }
+
+        /* Code Block Styling */
+        .code-box {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            border-left: 4px solid var(--light-blue);
+        }
+
+        /* Footer - Matches your image exactly */
+        .footer {
+            background-color: white;
+            padding: 60px 8% 30px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 { color: var(--primary-blue); margin-bottom: 15px; }
+        .footer-brand p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .social-links i {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            color: var(--primary-blue);
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .footer-col h4 { margin-bottom: 20px; font-size: 1rem; color: var(--text-dark); }
+        .footer-col a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-col a:hover { color: var(--primary-blue); }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .doc-container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">AeroSense</div>
+        <nav class="nav-links">
+            <a href="Air.html">Dashboard</a>
+            <a href="map.html">Map</a>
+            <a href="health.html">Health Advisories</a>
+            <a href="doc.html" class="active">Documentation</a>
+        </nav>
+        <button class="btn-signin">Sign In</button>
+    </header>
+
+    <div class="doc-container">
+        <aside class="sidebar">
+            <div class="sidebar-group">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#intro" class="active">Introduction</a></li>
+                    <li><a href="#setup">Getting Started</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-group">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#api">API Access</a></li>
+                    <li><a href="#data">Historical Data</a></li>
+                    <li><a href="#guidelines">Health Guidelines</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="intro">
+                <h1>Documentation</h1>
+                <p>Welcome to <strong>AeroSense</strong>. This documentation provides developers and researchers with the tools needed to access high-quality air intelligence data.</p>
+            </section>
+
+            <section id="setup">
+                <h2>Getting Started</h2>
+                <p>To begin using our intelligence platform, you need to register for an API key in your dashboard. Once registered, you can start making requests to our global environmental monitors.</p>
+            </section>
+
+            <section id="api">
+                <h2>API Access</h2>
+                <p>Use the following base URL for all API calls:</p>
+                <div class="code-box">
+                    GET https://api.aerosense.io/v1/air-quality?lat=40.71&lon=-74.00
+                </div>
+                <p>The response will return PM2.5, PM10, and NO2 levels in real-time.</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>AeroSense</h3>
+                <p>Making air quality intelligence accessible to everyone.</p>
+                <div class="social-links">
+                    <i class="fab fa-linkedin"></i>
+                    <i class="fab fa-github"></i>
+                    <i class="fab fa-facebook"></i>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="AIr.html">Dashboard</a>
+                <a href="map.html">Real-time Map</a>
+                <a href="#">Historical Data</a>
+                <a href="api.html">API Access</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="doc.html" style="color: var(--primary-blue); font-weight: bold;">Documentation</a>
+                <a href="health.html">Health Guidelines</a>
+                <a href="res.html">Research</a>
+                <a href="com.html">Community</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+                <a href="#">Careers</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 AeroSense. All rights reserved. Data sources: Open-Meteo, OpenAQ, US EPA, ESA.
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: aerosense_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: aerosense
+      MYSQL_USER: aerosense_user
+      MYSQL_PASSWORD: secure_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/init_db.py:/docker-entrypoint-initdb.d/init.sql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --innodb_buffer_pool_size=2G
+      - --innodb_flush_log_at_trx_commit=2
+      - --innodb_flush_method=O_DIRECT
+      - --max_connections=500
+      - --event_scheduler=ON
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aerosense_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: aerosense_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - aerosense_network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: aerosense_api
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=aerosense_user
+      - MYSQL_PASSWORD=secure_password
+      - MYSQL_DATABASE=aerosense
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SECRET_KEY=your-secret-key-change-in-production
+    volumes:
+      - ./:/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - aerosense_network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+networks:
+  aerosense_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
+  

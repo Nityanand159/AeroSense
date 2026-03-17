@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroSense - Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-card h2 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        .login-card input[type="email"],
+        .login-card input[type="password"],
+        .login-card input[type="text"] {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .login-card input[type="email"]:focus,
+        .login-card input[type="password"]:focus,
+        .login-card input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            accent-color: #667eea;
+        }
+
+        .forgot-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .forgot-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link a:hover {
+            color: #667eea;
+        }
+
+        /* Tabs for Login/Signup */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: #667eea;
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Signup specific styles */
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 1rem 0;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: auto;
+            accent-color: #667eea;
+        }
+
+        .terms-checkbox a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal Styles (keep all existing modal styles) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .reset-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info-message {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            border: 1px solid #bee5eb;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .password-requirements {
+            text-align: left;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        .requirement {
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .requirement i {
+            font-size: 0.8rem;
+        }
+
+        .requirement.met {
+            color: #28a745;
+        }
+
+        .requirement.met i {
+            color: #28a745;
+        }
+
+        hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Users List Modal */
+        .users-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-details {
+            text-align: left;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-email {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #e0e0e0;
+        }
+
+        .delete-user {
+            color: #e74c3c;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .delete-user:hover {
+            background: #fee;
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>AeroSense</span>
+        </div>
+        
+        <!-- Auth Tabs -->
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="switchAuthTab('login')" id="loginTab">Sign In</button>
+            <button class="auth-tab" onclick="switchAuthTab('signup')" id="signupTab">Create Account</button>
+        </div>
+        
+        <!-- Success/Error Messages -->
+        <div id="successMessage" class="success-message">
+            <i class="fas fa-check-circle"></i>
+            <span id="successText"></span>
+        </div>
+        
+        <div id="errorMessage" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText"></span>
+        </div>
+        
+        <div id="infoMessage" class="info-message">
+            <i class="fas fa-info-circle"></i>
+            <span id="infoText"></span>
+        </div>
+        
+        <!-- Login Form -->
+        <form id="loginForm" style="display: block;">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+            </div>
+            
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <span>Remember me</span>
+                </label>
+                <a class="forgot-link" onclick="openForgotPasswordModal()">
+                    <i class="fas fa-key" style="font-size: 0.8rem;"></i> Forgot Password?
+                </a>
+            </div>
+            
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span>Sign In</span>
+            </button>
+        </form>
+        
+        <!-- Signup Form -->
+        <form id="signupForm" style="display: none;">
+            <div class="name-row">
+                <div class="input-group">
+                    <label for="firstName">First Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="firstName" placeholder="First name" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="lastName">Last Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="signupEmail">Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPassword" placeholder="Create password" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="confirmSignupPassword">Confirm Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmSignupPassword" placeholder="Confirm password" required>
+                </div>
+            </div>
+            
+            <!-- Password Requirements -->
+            <div class="password-requirements">
+                <div class="requirement" id="signupReqLength">
+                    <i class="far fa-circle"></i> At least 8 characters
+                </div>
+                <div class="requirement" id="signupReqUppercase">
+                    <i class="far fa-circle"></i> One uppercase letter
+                </div>
+                <div class="requirement" id="signupReqLowercase">
+                    <i class="far fa-circle"></i> One lowercase letter
+                </div>
+                <div class="requirement" id="signupReqNumber">
+                    <i class="far fa-circle"></i> One number
+                </div>
+                <div class="requirement" id="signupReqMatch">
+                    <i class="far fa-circle"></i> Passwords match
+                </div>
+            </div>
+            
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+            </div>
+            
+            <button type="submit" class="login-btn" id="signupBtn">
+                <span>Create Account</span>
+            </button>
+        </form>
+        
+        <hr>
+        
+        <div class="back-link">
+            <a href="AIr.html">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+        
+        <!-- Admin link to view users (hidden in production) -->
+        <div style="margin-top: 1rem; font-size: 0.8rem;">
+            <a href="#" onclick="showUsersModal()" style="color: #999;">👥 View Registered Users (Demo)</a>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal (keep existing) -->
+    <div id="forgotPasswordModal" class="modal">
+        <!-- ... (keep the existing forgot password modal content) ... -->
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeForgotPasswordModal()">&times;</button>
+            
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <i class="fas fa-key" style="font-size: 3rem; color: #667eea;"></i>
+            </div>
+            
+            <h3>Reset Password</h3>
+            <p>Enter your email address and we'll send you instructions to reset your password.</p>
+            
+            <!-- Step 1: Email Input -->
+            <div id="step1">
+                <div class="input-group">
+                    <label for="resetEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="resetEmail" placeholder="Enter your registered email" required>
+                    </div>
+                </div>
+                
+                <button class="reset-btn" onclick="sendResetLink()" id="sendResetBtn">
+                    <span>Send Reset Link</span>
+                </button>
+            </div>
+            
+            <!-- Step 2: Verification Code -->
+            <div id="step2" style="display: none;">
+                <div class="input-group">
+                    <label for="verificationCode">Verification Code</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-qrcode"></i>
+                        <input type="text" id="verificationCode" placeholder="Enter 6-digit code" maxlength="6">
+                    </div>
+                </div>
+                
+                <button class="reset-btn" onclick="verifyCode()" id="verifyBtn">
+                    <span>Verify Code</span>
+                </button>
+                
+                <p style="text-align: center; margin-top: 1rem;">
+                    <a href="#" onclick="resendCode()" style="color: #667eea; text-decoration: none;">
+                        Resend Code
+                    </a>
+                </p>
+            </div>
+            
+            <!-- Step 3: New Password -->
+            <div id="step3" style="display: none;">
+                <div class="input-group">
+                    <label for="newPassword">New Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="newPassword" placeholder="Enter new password">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                    </div>
+                </div>
+                
+                <!-- Password Requirements -->
+                <div class="password-requirements">
+                    <div class="requirement" id="reqLength">
+                        <i class="far fa-circle"></i> At least 8 characters
+                    </div>
+                    <div class="requirement" id="reqUppercase">
+                        <i class="far fa-circle"></i> One uppercase letter
+                    </div>
+                    <div class="requirement" id="reqLowercase">
+                        <i class="far fa-circle"></i> One lowercase letter
+                    </div>
+                    <div class="requirement" id="reqNumber">
+                        <i class="far fa-circle"></i> One number
+                    </div>
+                    <div class="requirement" id="reqMatch">
+                        <i class="far fa-circle"></i> Passwords match
+                    </div>
+                </div>
+                
+                <button class="reset-btn" onclick="resetPassword()" id="resetPasswordBtn">
+                    <span>Reset Password</span>
+                </button>
+            </div>
+            
+            <!-- Step 4: Success -->
+            <div id="step4" style="display: none; text-align: center;">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: #28a745; margin-bottom: 1rem;"></i>
+                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Password Reset Successfully!</h4>
+                <p style="color: #666; margin-bottom: 1.5rem;">Your password has been updated. You can now sign in with your new password.</p>
+                <button class="reset-btn" onclick="closeForgotPasswordModal()">
+                    <span>Go to Sign In</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users List Modal (for demo) -->
+    <div id="usersModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeUsersModal()">&times;</button>
+            
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <i class="fas fa-users" style="font-size: 3rem; color: #667eea;"></i>
+            </div>
+            
+            <h3>Registered Users</h3>
+            <p>Demo users stored in browser memory</p>
+            
+            <div id="usersList" class="users-list">
+                <!-- Users will be dynamically added here -->
+            </div>
+            
+            <button class="reset-btn" onclick="closeUsersModal()">
+                <span>Close</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Store users in localStorage (simulates database)
+        let users = JSON.parse(localStorage.getItem('aerosense_users')) || [
+            {
+                id: '1',
+                firstName: 'Demo',
+                lastName: 'User',
+                email: 'demo@aerosense.com',
+                password: 'Demo1234',
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        // Save users to localStorage
+        function saveUsers() {
+            localStorage.setItem('aerosense_users', JSON.stringify(users));
+        }
+
+        // Switch between Login and Signup tabs
+        function switchAuthTab(tab) {
+            const loginTab = document.getElementById('loginTab');
+            const signupTab = document.getElementById('signupTab');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                signupForm.style.display = 'block';
+                loginForm.style.display = 'none';
+            }
+        }
+
+        // Handle Signup Form Submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmSignupPassword').value;
+            const terms = document.getElementById('terms').checked;
+            const btn = document.getElementById('signupBtn');
+            
+            // Validate all fields
+            if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            // Validate email format
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+            
+            // Validate password
+            if (!validatePassword(password, confirmPassword)) {
+                return;
+            }
+            
+            // Check if user already exists
+            if (users.find(u => u.email === email)) {
+                showError('An account with this email already exists');
+                return;
+            }
+            
+            // Check terms
+            if (!terms) {
+                showError('You must agree to the Terms of Service');
+                return;
+            }
+            
+            // Show loading
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Creating Account...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Create new user
+                const newUser = {
+                    id: Date.now().toString(),
+                    firstName,
+                    lastName,
+                    email,
+                    password, // In real app, hash this!
+                    createdAt: new Date().toISOString()
+                };
+                
+                users.push(newUser);
+                saveUsers();
+                
+                btn.disabled = false;
+                btn.innerHTML = '<span>Create Account</span>';
+                
+                showSuccess('Account created successfully! You can now sign in.');
+                
+                // Switch to login tab
+                switchAuthTab('login');
+                
+                // Clear signup form
+                document.getElementById('signupForm').reset();
+                
+                console.log('New user registered:', newUser);
+            }, 1500);
+        });
+
+        // Handle Login Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const btn = document.getElementById('loginBtn');
+            
+            if (!email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            // Show loading
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Signing in...';
+            
+            // Simulate login
+            setTimeout(() => {
+                // Find user
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                btn.disabled = false;
+                btn.innerHTML = '<span>Sign In</span>';
+                
+                if (user) {
+                    showSuccess(`Welcome back, ${user.firstName}! Redirecting...`);
+                    
+                    // Store session
+                    if (remember) {
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                    } else {
+                        sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = 'AIr.html';
+                    }, 1000);
+                } else {
+                    showError('Invalid email or password');
+                }
+            }, 1500);
+        });
+
+        // Real-time password validation for signup
+        document.getElementById('signupPassword').addEventListener('input', updateSignupPasswordRequirements);
+        document.getElementById('confirmSignupPassword').addEventListener('input', updateSignupPasswordRequirements);
+        
+        function updateSignupPasswordRequirements() {
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('confirmSignupPassword').value;
+            
+            // Length check
+            const reqLength = document.getElementById('signupReqLength');
+            if (password.length >= 8) {
+                reqLength.classList.add('met');
+                reqLength.innerHTML = '<i class="fas fa-check-circle"></i> At least 8 characters';
+            } else {
+                reqLength.classList.remove('met');
+                reqLength.innerHTML = '<i class="far fa-circle"></i> At least 8 characters';
+            }
+            
+            // Uppercase check
+            const reqUppercase = document.getElementById('signupReqUppercase');
+            if (/[A-Z]/.test(password)) {
+                reqUppercase.classList.add('met');
+                reqUppercase.innerHTML = '<i class="fas fa-check-circle"></i> One uppercase letter';
+            } else {
+                reqUppercase.classList.remove('met');
+                reqUppercase.innerHTML = '<i class="far fa-circle"></i> One uppercase letter';
+            }
+            
+            // Lowercase check
+            const reqLowercase = document.getElementById('signupReqLowercase');
+            if (/[a-z]/.test(password)) {
+                reqLowercase.classList.add('met');
+                reqLowercase.innerHTML = '<i class="fas fa-check-circle"></i> One lowercase letter';
+            } else {
+                reqLowercase.classList.remove('met');
+                reqLowercase.innerHTML = '<i class="far fa-circle"></i> One lowercase letter';
+            }
+            
+            // Number check
+            const reqNumber = document.getElementById('signupReqNumber');
+            if (/[0-9]/.test(password)) {
+                reqNumber.classList.add('met');
+                reqNumber.innerHTML = '<i class="fas fa-check-circle"></i> One number';
+            } else {
+                reqNumber.classList.remove('met');
+                reqNumber.innerHTML = '<i class="far fa-circle"></i> One number';
+            }
+            
+            // Match check
+            const reqMatch = document.getElementById('signupReqMatch');
+            if (password && password === confirm) {
+                reqMatch.classList.add('met');
+                reqMatch.innerHTML = '<i class="fas fa-check-circle"></i> Passwords match';
+            } else {
+                reqMatch.classList.remove('met');
+                reqMatch.innerHTML = '<i class="far fa-circle"></i> Passwords match';
+            }
+        }
+
+        // Show users modal (demo only)
+        function showUsersModal() {
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = '';
+            
+            users.forEach(user => {
+                const initials = (user.firstName[0] + (user.lastName[0] || '')).toUpperCase();
+                const createdDate = new Date(user.createdAt).toLocaleDateString();
+                
+                const userElement = document.createElement('div');
+                userElement.className = 'user-item';
+                userElement.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">${initials}</div>
+                        <div class="user-details">
+                            <div class="user-name">${user.firstName} ${user.lastName}</div>
+                            <div class="user-email">${user.email}</div>
+                            <div style="font-size: 0.7rem; color: #999;">Joined: ${createdDate}</div>
+                        </div>
+                    </div>
+                    <div class="delete-user" onclick="deleteUser('${user.id}')" title="Delete user (demo only)">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                `;
+                usersList.appendChild(userElement);
+            });
+            
+            document.getElementById('usersModal').style.display = 'flex';
+        }
+
+        function closeUsersModal() {
+            document.getElementById('usersModal').style.display = 'none';
+        }
+
+        // Delete user (demo only)
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user? (Demo only)')) {
+                users = users.filter(u => u.id !== userId);
+                saveUsers();
+                showUsersModal(); // Refresh the list
+                showSuccess('User deleted successfully');
+            }
+        }
+
+        // Keep all existing functions from your original code
+        // (openForgotPasswordModal, closeForgotPasswordModal, resetModal, 
+        // sendResetLink, verifyCode, resendCode, resetPassword, 
+        // validatePassword, updatePasswordRequirements, showSuccess, 
+        // showError, showInfo, isValidEmail, window.onclick)
+
+        // [Include all the existing functions from your original code here]
+        // For brevity, I'm not repeating them, but they should be copied over
+        
+        // Forgot Password Modal Functions
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'flex';
+            resetModal();
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'none';
+            resetModal();
+        }
+
+        function resetModal() {
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'none';
+            document.getElementById('step4').style.display = 'none';
+            
+            document.getElementById('resetEmail').value = '';
+            document.getElementById('verificationCode').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function sendResetLink() {
+            const email = document.getElementById('resetEmail').value;
+            const btn = document.getElementById('sendResetBtn');
+            
+            if (!email) {
+                showError('Please enter your email address');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Sending...';
+            
+            setTimeout(() => {
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('step2').style.display = 'block';
+                
+                btn.disabled = false;
+                btn.innerHTML = '<span>Send Reset Link</span>';
+                
+                showInfo(`Verification code sent to ${email}`);
+                console.log('Verification code: 123456');
+            }, 1500);
+        }
+
+        function verifyCode() {
+            const code = document.getElementById('verificationCode').value;
+            const btn = document.getElementById('verifyBtn');
+            
+            if (!code || code.length !== 6) {
+                showError('Please enter a valid 6-digit code');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Verifying...';
+            
+            setTimeout(() => {
+                if (code.length === 6) {
+                    document.getElementById('step2').style.display = 'none';
+                    document.getElementById('step3').style.display = 'block';
+                    showSuccess('Code verified successfully!');
+                } else {
+                    showError('Invalid verification code');
+                }
+                
+                btn.disabled = false;
+                btn.innerHTML = '<span>Verify Code</span>';
+            }, 1000);
+        }
+
+        function resendCode() {
+            const email = document.getElementById('resetEmail').value;
+            showInfo(`New code sent to ${email}`);
+        }
+
+        function resetPassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const btn = document.getElementById('resetPasswordBtn');
+            
+            if (!validatePassword(newPassword, confirmPassword)) {
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Resetting...';
+            
+            setTimeout(() => {
+                document.getElementById('step3').style.display = 'none';
+                document.getElementById('step4').style.display = 'block';
+                
+                btn.disabled = false;
+                btn.innerHTML = '<span>Reset Password</span>';
+                
+                showSuccess('Password reset successful! You can now login with your new password.');
+            }, 1500);
+        }
+
+        function validatePassword(password, confirm) {
+            if (password.length < 8) {
+                showError('Password must be at least 8 characters');
+                return false;
+            }
+            if (!/[A-Z]/.test(password)) {
+                showError('Password must contain at least one uppercase letter');
+                return false;
+            }
+            if (!/[a-z]/.test(password)) {
+                showError('Password must contain at least one lowercase letter');
+                return false;
+            }
+            if (!/[0-9]/.test(password)) {
+                showError('Password must contain at least one number');
+                return false;
+            }
+            if (password !== confirm) {
+                showError('Passwords do not match');
+                return false;
+            }
+            return true;
+        }
+
+        function updatePasswordRequirements() {
+            const password = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            const reqLength = document.getElementById('reqLength');
+            if (password.length >= 8) {
+                reqLength.classList.add('met');
+                reqLength.innerHTML = '<i class="fas fa-check-circle"></i> At least 8 characters';
+            } else {
+                reqLength.classList.remove('met');
+                reqLength.innerHTML = '<i class="far fa-circle"></i> At least 8 characters';
+            }
+            
+            const reqUppercase = document.getElementById('reqUppercase');
+            if (/[A-Z]/.test(password)) {
+                reqUppercase.classList.add('met');
+                reqUppercase.innerHTML = '<i class="fas fa-check-circle"></i> One uppercase letter';
+            } else {
+                reqUppercase.classList.remove('met');
+                reqUppercase.innerHTML = '<i class="far fa-circle"></i> One uppercase letter';
+            }
+            
+            const reqLowercase = document.getElementById('reqLowercase');
+            if (/[a-z]/.test(password)) {
+                reqLowercase.classList.add('met');
+                reqLowercase.innerHTML = '<i class="fas fa-check-circle"></i> One lowercase letter';
+            } else {
+                reqLowercase.classList.remove('met');
+                reqLowercase.innerHTML = '<i class="far fa-circle"></i> One lowercase letter';
+            }
+            
+            const reqNumber = document.getElementById('reqNumber');
+            if (/[0-9]/.test(password)) {
+                reqNumber.classList.add('met');
+                reqNumber.innerHTML = '<i class="fas fa-check-circle"></i> One number';
+            } else {
+                reqNumber.classList.remove('met');
+                reqNumber.innerHTML = '<i class="far fa-circle"></i> One number';
+            }
+            
+            const reqMatch = document.getElementById('reqMatch');
+            if (password && password === confirm) {
+                reqMatch.classList.add('met');
+                reqMatch.innerHTML = '<i class="fas fa-check-circle"></i> Passwords match';
+            } else {
+                reqMatch.classList.remove('met');
+                reqMatch.innerHTML = '<i class="far fa-circle"></i> Passwords match';
+            }
+        }
+
+        document.getElementById('newPassword').addEventListener('input', updatePasswordRequirements);
+        document.getElementById('confirmPassword').addEventListener('input', updatePasswordRequirements);
+
+        function showSuccess(message) {
+            document.getElementById('successText').textContent = message;
+            document.getElementById('successMessage').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMessage').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('errorMessage').style.display = 'none';
+            }, 5000);
+        }
+
+        function showInfo(message) {
+            document.getElementById('infoText').textContent = message;
+            document.getElementById('infoMessage').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('infoMessage').style.display = 'none';
+            }, 5000);
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('forgotPasswordModal');
+            if (event.target === modal) {
+                closeForgotPasswordModal();
+            }
+            const usersModal = document.getElementById('usersModal');
+            if (event.target === usersModal) {
+                closeUsersModal();
+            }
+        }
+
+        // Initialize - check if user is already logged in
+        const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+        if (currentUser) {
+            // Optional: Auto-redirect if already logged in
+            // window.location.href = 'AIr.html';
+        }
+    </script>
+</body>
+</html>

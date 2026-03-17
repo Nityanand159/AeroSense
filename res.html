@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | AeroSense Air Quality Intelligence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #003366; /* Matching your header/footer blue */
+            --accent-blue: #007bff;
+            --text-gray: #555;
+            --bg-light: #f4f7f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--bg-light);
+        }
+
+        /* Header / Navbar Styling */
+        header {
+            background-color: white;
+            padding: 1rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .research-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .research-header h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+        }
+
+        /* Research Cards Grid */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            border-top: 5px solid var(--primary-blue);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eef2f7;
+            color: var(--accent-blue);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            color: var(--primary-blue);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        .btn-read {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--accent-blue);
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .btn-read:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Simple Footer (Matching your Screenshot) */
+        footer {
+            background-color: #fff;
+            padding: 60px 10%;
+            margin-top: 80px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="AIr.html" class="logo">
+             AeroSense
+        </a>
+        <nav>
+            <a href="AIr.html" style="text-decoration:none; color:var(--primary-blue); font-weight:500;">Back to Home</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="research-header">
+            <h1>Scientific Research</h1>
+            <p>Our methodology is built on data from Open-Meteo, OpenAQ, and the US EPA.</p>
+        </div>
+
+        <div class="research-grid">
+            <div class="card">
+                <div class="card-content">
+                    <span class="tag">Journal Article</span>
+                    <h3>Machine Learning in Air Quality Prediction</h3>
+                    <p>Exploring how neural networks can predict PM2.5 levels 24 hours in advance with 92% accuracy.</p>
+                    <a href="ml.html" class="btn-read">View Abstract <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span class="tag">Technical Report</span>
+                    <h3>Sensor Calibration Framework</h3>
+                    <p>Details on our proprietary data cleaning process that filters noise from low-cost IoT environmental sensors.</p>
+                    <a href="index.html" class="pdf.pdf">Download PDF <i class="fa-solid fa-file-pdf"></i></a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span class="tag">Case Study</span>
+                    <h3>Urban Heat Islands & Pollution</h3>
+                    <p>A collaborative study on the correlation between city infrastructure density and local air stagnation.</p>
+                    <a href="ss.html" class="btn-read">Read Story <i class="fa-solid fa-book-open"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 AeroSense. All rights reserved. Data sources: Open-Meteo, OpenAQ, US EPA, ESA.
+        </div>
+    </footer>
+
+</body>
+</html>

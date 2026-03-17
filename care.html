@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Basic reset for the demo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        .footer-container {
+            background-color: #ffffff;
+            padding: 60px 10% 40px 10%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-top: 1px solid #eaeaea;
+        }
+
+        /* Branding Column */
+        .footer-brand {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+
+        .footer-brand h2 {
+            color: #003366; /* Matching your AeroSense blue */
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: #666;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        /* Navigation Columns */
+        .footer-links {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .link-group h4 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .link-group ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .link-group ul li {
+            margin-bottom: 12px;
+        }
+
+        .link-group ul li a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .link-group ul li a:hover {
+            color: #007bff;
+        }
+
+        /* Bottom Copyright Bar */
+        .footer-bottom {
+            width: 100%;
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>AeroSense</h2>
+                <p>Making air quality intelligence accessible to everyone.</p>
+                </div>
+
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="AIr.html">Dashboard</a></li>
+                        <li><a href="map.html">Real-time Map</a></li>
+                        <li><a href="#">Historical Data</a></li>
+                        <li><a href="api.html">API Access</a></li>
+                    </ul>
+                </div>
+
+                <div class="link-group">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="doc.html">Documentation</a></li>
+                        <li><a href="#">Health Guidelines</a></li>
+                        <li><a href="res.html">Research</a></li>
+                        <li><a href="com.html">Community</a></li>
+                    </ul>
+                </div>
+
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="abo.html">About Us</a></li>
+                        <li><a href="conn.html">Contact</a></li>
+                        <li><a href="care.html">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2026 AeroSense. All rights reserved. Data sources: Open-Meteo, OpenAQ, US EPA, ESA.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

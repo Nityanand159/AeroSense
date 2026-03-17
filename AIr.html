@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroSense | Urban Air Quality Intelligence Platform</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            padding: 2rem 5%;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 3rem 0;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-box button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box button:hover {
+            transform: translateY(-2px);
+        }
+
+        .location-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .location-tag {
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .location-tag:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        /* Current AQI Card */
+        .aqi-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .aqi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .aqi-header h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .aqi-value {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #2ecc71;
+            margin-bottom: 0.5rem;
+        }
+
+        .aqi-category {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .pollutants-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .pollutant-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .pollutant-name {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .pollutant-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .pollutant-unit {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chart-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chart-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Hotspots Map */
+        .map-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            grid-column: span 2;
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-header h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.high { background: #e74c3c; }
+        .legend-color.moderate { background: #f39c12; }
+        .legend-color.low { background: #2ecc71; }
+
+        .map-placeholder {
+            background: #f8f9fa;
+            height: 400px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .map-hotspots {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.3);
+            border: 2px solid #e74c3c;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            70% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Health Advisory Cards */
+        .advisory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .advisory-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .advisory-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .advisory-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .advisory-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .advisory-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .advisory-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .risk-level {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .risk-high { background: #fde8e8; color: #e74c3c; }
+        .risk-moderate { background: #fef3e0; color: #f39c12; }
+        .risk-low { background: #e8f5e9; color: #2ecc71; }
+
+        /* Data Sources Section */
+        .sources-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .sources-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .source-item {
+            text-align: center;
+        }
+
+        .source-icon {
+            width: 80px;
+            height: 80px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .source-icon i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .source-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .source-item p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-logo i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sources-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .pollutants-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .sources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            border-left: 4px solid #2ecc71;
+        }
+
+        .toast.error {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .toast i {
+            font-size: 1.2rem;
+        }
+
+        .toast.success i {
+            color: #2ecc71;
+        }
+
+        .toast.error i {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>AeroSense</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="map.html">Map</a>
+            <a href="#">Health Advisories</a>
+            <a href="#">Data Sources</a>
+            <a href="#">About</a>
+            <a href="sign.html" class="btn-primary">Sign In</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Breathe Cleaner, Live Healthier</h1>
+                <p>Real-time air quality intelligence powered by AI and multi-source data integration. Monitor pollution levels, identify high-risk zones, and protect your community.</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">250+</span>
+                        <span class="stat-label">Sensors Active</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Cities Covered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-label">People Protected</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="City skyline with air quality visualization">
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-box">
+                <input type="text" id="citySearch" placeholder="Enter city name or zip code...">
+                <button onclick="searchLocation()">
+                    <i class="fas fa-search"></i>
+                    Check Air Quality
+                </button>
+            </div>
+            <div class="location-tags">
+                <span class="location-tag" onclick="selectLocation('New York')">📍 New York</span>
+                <span class="location-tag" onclick="selectLocation('London')">📍 London</span>
+                <span class="location-tag" onclick="selectLocation('Tokyo')">📍 Tokyo</span>
+                <span class="location-tag" onclick="selectLocation('Delhi')">📍 Delhi</span>
+                <span class="location-tag" onclick="selectLocation('Beijing')">📍 Beijing</span>
+                <span class="location-tag" onclick="selectLocation('Los Angeles')">📍 Los Angeles</span>
+            </div>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard">
+            <!-- Current AQI Card -->
+            <div class="aqi-card">
+                <div class="aqi-header">
+                    <h2><i class="fas fa-chart-line" style="color: #667eea; margin-right: 10px;"></i>Current Air Quality</h2>
+                    <span class="location-tag" style="background: #667eea; color: white;">New York City</span>
+                </div>
+                <div style="text-align: center;">
+                    <div class="aqi-value" id="aqiValue">45</div>
+                    <div class="aqi-category" id="aqiCategory">Good</div>
+                </div>
+                
+                <div class="pollutants-grid">
+                    <div class="pollutant-item">
+                        <div class="pollutant-name">PM2.5</div>
+                        <div class="pollutant-value" id="pm25">12.3</div>
+                        <div class="pollutant-unit">µg/m³</div>
+                    </div>
+                    <div class="pollutant-item">
+                        <div class="pollutant-name">PM10</div>
+                        <div class="pollutant-value" id="pm10">22.1</div>
+                        <div class="pollutant-unit">µg/m³</div>
+                    </div>
+                    <div class="pollutant-item">
+                        <div class="pollutant-name">NO₂</div>
+                        <div class="pollutant-value" id="no2">18.5</div>
+                        <div class="pollutant-unit">ppb</div>
+                    </div>
+                    <div class="pollutant-item">
+                        <div class="pollutant-name">O₃</div>
+                        <div class="pollutant-value" id="o3">32.7</div>
+                        <div class="pollutant-unit">ppb</div>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Health Recommendation:</span>
+                        <span style="color: #2ecc71; font-weight: 600;">Safe for outdoor activities</span>
+                    </div>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        <i class="fas fa-check-circle" style="color: #2ecc71;"></i> Air quality is satisfactory with little or no risk
+                    </div>
+                </div>
+            </div>
+
+            <!-- 24-Hour Forecast Chart -->
+<div class="chart-container">
+    <div class="chart-header">
+        <div>
+            <h3><i class="fas fa-clock" style="color: #667eea; margin-right: 10px;"></i>24-Hour Forecast</h3>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 5px;" id="lastUpdated">Last updated: Just now</p>
+        </div>
+        <div class="chart-controls">
+            <div class="chart-tabs">
+                <button class="chart-tab active" onclick="switchChart('hourly')">Hourly</button>
+                <button class="chart-tab" onclick="switchChart('daily')">Daily</button>
+            </div>
+            <button class="refresh-btn" onclick="refreshChartData()" title="Refresh data">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </div>
+    </div>
+    <div style="position: relative; height: 300px;">
+        <canvas id="aqiChart"></canvas>
+    </div>
+    <!-- Chart Summary Stats -->
+    <div class="chart-summary">
+        <div class="summary-item">
+            <span class="summary-label">Min AQI</span>
+            <span class="summary-value" id="minAQI">28</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Max AQI</span>
+            <span class="summary-value" id="maxAQI">65</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Average</span>
+            <span class="summary-value" id="avgAQI">44</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Trend</span>
+            <span class="summary-value" id="trend">
+                <i class="fas fa-arrow-up" style="color: #e74c3c;"></i> Rising
+            </span>
+        </div>
+    </div>
+</div>
+
+<style>
+.chart-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.refresh-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #f0f0f0;
+    color: #667eea;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: rotate(180deg);
+}
+
+.refresh-btn i {
+    font-size: 1rem;
+}
+
+.chart-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.summary-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Tooltip styles */
+.chart-tooltip {
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    pointer-events: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .chart-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .chart-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+
+<script>
+// Initialize chart with real-time data
+let aqiChart;
+let currentChartType = 'hourly';
+let updateInterval;
+
+// Sample data for different times of day
+const hourlyData = {
+    labels: ['12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', 
+             '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'],
+    values: [28, 26, 24, 23, 22, 25, 32, 42, 52, 58, 62, 65, 
+             63, 61, 59, 58, 62, 68, 72, 70, 64, 55, 45, 35],
+    colors: [
+        '#2ecc71', '#2ecc71', '#2ecc71', '#2ecc71', '#2ecc71', '#2ecc71',
+        '#f39c12', '#f39c12', '#f39c12', '#f39c12', '#f39c12', '#f39c12',
+        '#f39c12', '#f39c12', '#f39c12', '#f39c12', '#f39c12', '#e74c3c',
+        '#e74c3c', '#e74c3c', '#f39c12', '#f39c12', '#2ecc71', '#2ecc71'
+    ]
+};
+
+const dailyData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    values: [45, 52, 48, 55, 62, 58, 50],
+    colors: ['#f39c12', '#f39c12', '#f39c12', '#f39c12', '#e74c3c', '#f39c12', '#2ecc71']
+};
+
+// Initialize chart when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initChart();
+    startAutoUpdate();
+});
+
+function initChart() {
+    const ctx = document.getElementById('aqiChart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (aqiChart) {
+        aqiChart.destroy();
+    }
+    
+    const currentData = currentChartType === 'hourly' ? hourlyData : dailyData;
+    
+    aqiChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: currentData.labels,
+            datasets: [{
+                label: 'Air Quality Index (AQI)',
+                data: currentData.values,
+                borderColor: '#667eea',
+                backgroundColor: function(context) {
+                    const chart = context.chart;
+                    const {ctx, chartArea} = chart;
+                    if (!chartArea) return null;
+                    
+                    const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                    gradient.addColorStop(0, 'rgba(102, 126, 234, 0.1)');
+                    gradient.addColorStop(1, 'rgba(102, 126, 234, 0.3)');
+                    return gradient;
+                },
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: currentData.colors,
+                pointBorderColor: 'white',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 8,
+                pointHoverBackgroundColor: '#667eea',
+                pointHoverBorderColor: 'white',
+                pointHoverBorderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#667eea',
+                    borderWidth: 2,
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw;
+                            let category = '';
+                            if (value <= 50) category = 'Good';
+                            else if (value <= 100) category = 'Moderate';
+                            else if (value <= 150) category = 'Unhealthy for Sensitive Groups';
+                            else category = 'Unhealthy';
+                            
+                            return [
+                                `AQI: ${value}`,
+                                `Category: ${category}`,
+                                `Health Impact: ${getHealthImpact(value)}`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)',
+                        drawBorder: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Air Quality Index',
+                        color: '#666',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
+                    ticks: {
+                        stepSize: 20,
+                        callback: function(value) {
+                            return value + ' AQI';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45,
+                        maxTicksLimit: currentChartType === 'hourly' ? 12 : 7,
+                        font: {
+                            size: 11
+                        }
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+    
+    updateSummaryStats(currentData.values);
+}
+
+function switchChart(type) {
+    currentChartType = type;
+    
+    // Update active tab
+    document.querySelectorAll('.chart-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Update chart data
+    const newData = type === 'hourly' ? hourlyData : dailyData;
+    aqiChart.data.labels = newData.labels;
+    aqiChart.data.datasets[0].data = newData.values;
+    aqiChart.data.datasets[0].pointBackgroundColor = newData.colors;
+    aqiChart.update();
+    
+    updateSummaryStats(newData.values);
+}
+
+function refreshChartData() {
+    // Show loading state
+    const refreshBtn = event.currentTarget;
+    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    refreshBtn.style.pointerEvents = 'none';
+    
+    // Simulate API call
+    setTimeout(() => {
+        // Generate new realistic data
+        const baseValue = currentChartType === 'hourly' ? 40 : 50;
+        const variation = 20;
+        
+        if (currentChartType === 'hourly') {
+            // Morning low, evening peak pattern
+            hourlyData.values = hourlyData.labels.map((_, index) => {
+                const hour = index;
+                if (hour >= 0 && hour <= 5) return Math.floor(baseValue - 15 + Math.random() * 10); // Night: low
+                if (hour >= 7 && hour <= 9) return Math.floor(baseValue + 10 + Math.random() * 15); // Morning rush
+                if (hour >= 12 && hour <= 14) return Math.floor(baseValue + 5 + Math.random() * 10); // Midday
+                if (hour >= 16 && hour <= 19) return Math.floor(baseValue + 20 + Math.random() * 20); // Evening rush
+                if (hour >= 20 && hour <= 23) return Math.floor(baseValue + 5 + Math.random() * 15); // Evening
+                return Math.floor(baseValue + Math.random() * variation);
+            });
+            
+            // Update colors based on new values
+            hourlyData.colors = hourlyData.values.map(value => {
+                if (value <= 50) return '#2ecc71';
+                if (value <= 100) return '#f39c12';
+                return '#e74c3c';
+            });
+        } else {
+            dailyData.values = dailyData.labels.map(() => 
+                Math.floor(35 + Math.random() * 45)
+            );
+            
+            dailyData.colors = dailyData.values.map(value => {
+                if (value <= 50) return '#2ecc71';
+                if (value <= 100) return '#f39c12';
+                return '#e74c3c';
+            });
+        }
+        
+        // Update chart
+        const newData = currentChartType === 'hourly' ? hourlyData : dailyData;
+        aqiChart.data.datasets[0].data = newData.values;
+        aqiChart.data.datasets[0].pointBackgroundColor = newData.colors;
+        aqiChart.update();
+        
+        // Update summary stats
+        updateSummaryStats(newData.values);
+        
+        // Update last updated time
+        document.getElementById('lastUpdated').textContent = 
+            'Last updated: ' + new Date().toLocaleTimeString();
+        
+        // Show success feedback
+        refreshBtn.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(() => {
+            refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+            refreshBtn.style.pointerEvents = 'auto';
+        }, 1000);
+        
+        // Show toast notification
+        showToast('Chart data refreshed successfully!', 'success');
+    }, 800);
+}
+
+function updateSummaryStats(values) {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const avg = Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+    
+    document.getElementById('minAQI').textContent = min;
+    document.getElementById('maxAQI').textContent = max;
+    document.getElementById('avgAQI').textContent = avg;
+    
+    // Calculate trend (compare last 3 values with previous 3)
+    const recent = values.slice(-3);
+    const previous = values.slice(-6, -3);
+    const recentAvg = recent.reduce((a, b) => a + b, 0) / 3;
+    const previousAvg = previous.length ? previous.reduce((a, b) => a + b, 0) / 3 : recentAvg;
+    
+    const trend = document.getElementById('trend');
+    if (recentAvg > previousAvg + 2) {
+        trend.innerHTML = '<i class="fas fa-arrow-up" style="color: #e74c3c;"></i> Rising';
+    } else if (recentAvg < previousAvg - 2) {
+        trend.innerHTML = '<i class="fas fa-arrow-down" style="color: #2ecc71;"></i> Falling';
+    } else {
+        trend.innerHTML = '<i class="fas fa-minus" style="color: #f39c12;"></i> Stable';
+    }
+}
+
+function getHealthImpact(aqi) {
+    if (aqi <= 50) return 'Ideal for outdoor activities';
+    if (aqi <= 100) return 'May affect sensitive individuals';
+    if (aqi <= 150) return 'Limit prolonged exertion';
+    return 'Avoid outdoor activities';
+}
+
+// Auto-update every 30 seconds for demo (in production, this would be longer)
+function startAutoUpdate() {
+    if (updateInterval) clearInterval(updateInterval);
+    
+    updateInterval = setInterval(() => {
+        // Don't auto-refresh if user is interacting
+        if (!aqiChart || aqiChart._animations.count > 0) return;
+        
+        // Simulate new data point (like real-time update)
+        if (currentChartType === 'hourly') {
+            // Shift data and add new value at the end
+            hourlyData.values.shift();
+            const newValue = Math.floor(30 + Math.random() * 40);
+            hourlyData.values.push(newValue);
+            hourlyData.colors.shift();
+            hourlyData.colors.push(newValue <= 50 ? '#2ecc71' : newValue <= 100 ? '#f39c12' : '#e74c3c');
+            
+            aqiChart.data.datasets[0].data = hourlyData.values;
+            aqiChart.data.datasets[0].pointBackgroundColor = hourlyData.colors;
+            aqiChart.update();
+            
+            updateSummaryStats(hourlyData.values);
+        }
+    }, 30000); // Update every 30 seconds
+}
+
+// Add click interaction for more details
+document.getElementById('aqiChart').addEventListener('click', function(e) {
+    const points = aqiChart.getElementsAtEvent(e);
+    if (points.length > 0) {
+        const firstPoint = points[0];
+        const label = aqiChart.data.labels[firstPoint.index];
+        const value = aqiChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+        
+        showToast(`${label}: AQI ${value} - ${getHealthImpact(value)}`, 'info');
+    }
+});
+
+// Clean up interval when leaving page
+window.addEventListener('beforeunload', function() {
+    if (updateInterval) clearInterval(updateInterval);
+});
+</script>
+
+            <!-- Hotspots Map -->
+            <div class="map-card">
+                <div class="map-header">
+                    <h3><i class="fas fa-map-marker-alt" style="color: #667eea; margin-right: 10px;"></i>Pollution Hotspots</h3>
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <div class="legend-color high"></div>
+                            <span>High Risk</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color moderate"></div>
+                            <span>Moderate</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color low"></div>
+                            <span>Low Risk</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-placeholder">
+                    <div class="map-grid"></div>
+                    <div class="map-hotspots">
+                        <div class="hotspot" style="top: 30%; left: 40%;"></div>
+                        <div class="hotspot" style="top: 60%; left: 55%;"></div>
+                        <div class="hotspot" style="top: 45%; left: 25%;"></div>
+                        <div class="hotspot" style="top: 70%; left: 70%;"></div>
+                    </div>
+                    <span>Interactive Map Loading... (Showing 4 active hotspots)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Advisories Section -->
+        <h2 style="color: white; margin: 3rem 0 2rem;">Health Advisories & Recommendations</h2>
+        <div class="advisory-grid">
+            <div class="advisory-card">
+                <div class="advisory-icon">
+                    <i class="fas fa-lungs"></i>
+                </div>
+                <h4>Sensitive Groups</h4>
+                <p>Children, elderly, and individuals with respiratory conditions should limit prolonged outdoor exertion.</p>
+                <span class="risk-level risk-low">Low Risk Today</span>
+            </div>
+            <div class="advisory-card">
+                <div class="advisory-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h4>General Population</h4>
+                <p>Air quality is acceptable. Enjoy normal outdoor activities.</p>
+                <span class="risk-level risk-low">Minimal Risk</span>
+            </div>
+            <div class="advisory-card">
+                <div class="advisory-icon">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <h4>Traffic Alert</h4>
+                <p>High traffic areas show elevated PM2.5 levels. Consider alternative routes.</p>
+                <span class="risk-level risk-moderate">Use Caution</span>
+            </div>
+            <div class="advisory-card">
+                <div class="advisory-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h4>Tomorrow's Forecast</h4>
+                <p>AQI expected to rise to 65 (Moderate). Plan outdoor activities accordingly.</p>
+                <span class="risk-level risk-moderate">Moderate Tomorrow</span>
+            </div>
+        </div>
+
+        <!-- Data Sources Section -->
+        <section class="sources-section">
+            <h3>Integrated Data Sources</h3>
+            <div class="sources-grid">
+                <div class="source-item">
+                    <div class="source-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h4>250+ Ground Sensors</h4>
+                    <p>Real-time PM2.5, PM10, NO₂, O₃ monitoring</p>
+                </div>
+                <div class="source-item">
+                    <div class="source-icon">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <h4>Satellite Observations</h4>
+                    <p>MODIS & Sentinel-5P AOD data</p>
+                </div>
+                <div class="source-item">
+                    <div class="source-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h4>Traffic Patterns</h4>
+                    <p>Real-time traffic density & emissions</p>
+                </div>
+                <div class="source-item">
+                    <div class="source-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h4>Weather Data</h4>
+                    <p>Temperature, wind, humidity, pressure</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <div style="text-align: center; margin: 3rem 0;">
+            <h2 style="color: white; margin-bottom: 1.5rem;">Join the Clean Air Initiative</h2>
+            <button class="btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem;" onclick="showToast()">
+                <i class="fas fa-bell"></i>
+                Get Real-Time Alerts
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-leaf"></i>
+                <h3>AeroSense</h3>
+                <p>Making air quality intelligence accessible to everyone.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <a href="AIr.html">Dashboard</a>
+                <a href="map.html">Real-time Map</a>
+                <a href="#">Historical Data</a>
+                <a href="Api Access/api.html">API Access</a>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <a href="doc.html">Documentation</a>
+                <a href="health.html">Health Guidelines</a>
+                <a href="res.html">Research</a>
+                <a href="com.html">Community</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="abo.html">About Us</a>
+                <a href="conn.html">Contact</a>
+                <a href="care.html">Careers</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 AeroSense. All rights reserved. Data sources: Open-Meteo, OpenAQ, US EPA, ESA.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Alert subscription successful!</span>
+    </div>
+
+    <script>
+        // Chart initialization
+        const ctx = document.getElementById('aqiChart').getContext('2d');
+        
+        // Sample data for 24 hours
+        const hours = Array.from({length: 24}, (_, i) => `${i}:00`);
+        const aqiData = [42, 40, 38, 35, 32, 30, 28, 29, 32, 38, 45, 52, 58, 62, 65, 63, 58, 52, 48, 45, 43, 41, 40, 39];
+
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: hours,
+                datasets: [{
+                    label: 'AQI',
+                    data: aqiData,
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#667eea',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Air Quality Index'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45,
+                            maxTicksLimit: 12
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to switch chart type
+        function switchChart(type) {
+            const tabs = document.querySelectorAll('.chart-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (type === 'hourly') {
+                chart.data.labels = hours;
+                chart.data.datasets[0].data = aqiData;
+            } else {
+                // Daily data
+                chart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                chart.data.datasets[0].data = [45, 52, 48, 55, 62, 58, 50];
+            }
+            chart.update();
+        }
+
+        // Function to search location
+        function searchLocation() {
+            const city = document.getElementById('citySearch').value;
+            if (city) {
+                document.querySelector('.aqi-header span').textContent = city;
+                // Simulate loading
+                document.querySelector('.aqi-value').innerHTML = '<div class="loading"></div>';
+                document.querySelector('.pollutants-grid').style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    // Random AQI for demo
+                    const randomAQI = Math.floor(Math.random() * 100) + 20;
+                    document.querySelector('.aqi-value').textContent = randomAQI;
+                    document.querySelector('.pollutants-grid').style.opacity = '1';
+                    
+                    // Update category based on AQI
+                    let category = 'Good';
+                    let color = '#2ecc71';
+                    if (randomAQI > 150) category = 'Unhealthy';
+                    else if (randomAQI > 100) category = 'Unhealthy for Sensitive Groups';
+                    else if (randomAQI > 50) category = 'Moderate';
+                    
+                    document.getElementById('aqiCategory').textContent = category;
+                    
+                    // Update recommendation
+                    const recommendationDiv = document.querySelector('.aqi-card div[style*="background: #f8f9fa"] div:first-child span');
+                    if (recommendationDiv) {
+                        if (randomAQI <= 50) {
+                            recommendationDiv.textContent = 'Safe for outdoor activities';
+                            recommendationDiv.style.color = '#2ecc71';
+                        } else if (randomAQI <= 100) {
+                            recommendationDiv.textContent = 'Limit prolonged exertion';
+                            recommendationDiv.style.color = '#f39c12';
+                        } else {
+                            recommendationDiv.textContent = 'Avoid outdoor activities';
+                            recommendationDiv.style.color = '#e74c3c';
+                        }
+                    }
+                    
+                    showToast('Air quality data updated for ' + city, 'success');
+                }, 1500);
+            }
+        }
+
+        // Function to select location from tags
+        function selectLocation(city) {
+            document.getElementById('citySearch').value = city;
+            searchLocation();
+        }
+
+        // Toast notification function
+        function showToast(message = 'Alert subscription successful!', type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = 'toast ' + type;
+            toastMessage.textContent = message;
+            
+            // Set icon
+            const icon = toast.querySelector('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else {
+                icon.className = 'fas fa-exclamation-circle';
+            }
+            
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Auto-refresh data every 5 minutes (simulated)
+        setInterval(() => {
+            // Update chart with random data for demo
+            const newData = chart.data.datasets[0].data.map(() => 
+                Math.floor(Math.random() * 70) + 20
+            );
+            chart.data.datasets[0].data = newData;
+            chart.update();
+            
+            // Update AQI value
+            const newAQI = Math.floor(Math.random() * 100) + 20;
+            document.getElementById('aqiValue').textContent = newAQI;
+            
+            // Update pollutants
+            document.getElementById('pm25').textContent = (Math.random() * 25 + 5).toFixed(1);
+            document.getElementById('pm10').textContent = (Math.random() * 40 + 10).toFixed(1);
+            document.getElementById('no2').textContent = (Math.random() * 30 + 5).toFixed(1);
+            document.getElementById('o3').textContent = (Math.random() * 40 + 15).toFixed(1);
+            
+            showToast('Data refreshed with latest readings', 'success');
+        }, 300000); // 5 minutes
+
+        // Keyboard support for search
+        document.getElementById('citySearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchLocation();
+            }
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.advisory-card, .source-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
